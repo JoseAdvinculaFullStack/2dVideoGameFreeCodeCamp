@@ -96,7 +96,7 @@ window.addEventListener('load',function(){
 
     }
     class UI{
-
+        
     }
     class Game {
         constructor(width,height){
