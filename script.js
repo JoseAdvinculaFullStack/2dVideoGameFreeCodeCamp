@@ -57,7 +57,7 @@ window.addEventListener('load',function(){
             this.x=20;
             this.y=100;
             this.speedY=0;
-            this.maxSpeed=2;
+            this.maxSpeed=3;
             this.proyectiles=[];
         }
         update(){
