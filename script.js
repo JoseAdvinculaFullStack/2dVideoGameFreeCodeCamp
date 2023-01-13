@@ -91,7 +91,9 @@ window.addEventListener('load',function(){
             this.game=game;
             this.x=this.game.width;
             this.speedX=Math.random()*-1.5-0.5;
-            this.markedForDeletion=false
+            this.markedForDeletion=false;
+            this.lives=5;
+            this.score=this.lives;
         }
         update(){
             this.x+=this.speedX;
@@ -100,7 +102,11 @@ window.addEventListener('load',function(){
         draw(context){
             context.fillStyle='red';
             context.fillRect(this.x,this.y,this.width,this.height);
+            context.fillStyle='black';
+            context.font='20px Helvetica';
+            context.fillText(this.lives,this.x,this.y)
         }
+
 
     }
     
@@ -162,6 +168,19 @@ window.addEventListener('load',function(){
             }
             this.enemies.forEach(enemy=>{
                     enemy.update();
+                    if(this.checkCollision(this.player,enemy)){
+                        enemy.markedForDeletion=true;
+                    }
+                    this.player.proyectiles.forEach(projectile =>{
+                        if(this.checkCollision(projectile,enemy)){
+                            enemy.lives--;
+                            projectile.markedForDeletion=true;
+                            if(enemy.lives<=0){
+                                enemy.markedForDeletion=true;
+                                this.score+=enemy.score;
+                            }
+                        }
+                    })
                 }
                 );
             this.enemies=this.enemies.filter(enemy=>!enemy.markedForDeletion);
@@ -182,8 +201,15 @@ window.addEventListener('load',function(){
         }
         addEnemy(){
             this.enemies.push(new Angler1(this));
-            console.log(this.enemies);
-            
+                console.log(this.enemies);          
+        }
+        checkCollision(rect1,rect2){
+            return (
+                rect1.x<rect2.x+rect2.width && 
+                rect1.x+rect1.width>rect2.x &&
+                rect1.y<rect2.y + rect2.height &&
+                rect1.y+rect1.height>rect2.y
+            )
         }
 
     }
