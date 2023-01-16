@@ -147,6 +147,10 @@ window.addEventListener('load',function(){
             for(let i=0;i<this.game.amno;i++){
                 context.fillRect(20+5*i,50,3,20);
             }
+            //timer
+            const formattedTime=(this.game.gameTime*0.001).toFixed(1);
+            //toFixed es para generar la cantidad de decimales que queremos mostrar
+            context.fillText('Timer:' + formattedTime,20,100);
 
             //game over messages
             if(this.game.gameOver){
@@ -162,7 +166,7 @@ window.addEventListener('load',function(){
                 }
                 context.font='50px '+this.fontFamily;
                 context.fillText(message1,this.game.width*0.5,this.game.height*0.5-40);
-                context.font='25px'+this.fontFamily;
+                context.font='25px '+this.fontFamily;
                 context.fillText(message2,this.game.width*0.5,this.game.height*0.5+40);
                 
             }
@@ -187,8 +191,12 @@ window.addEventListener('load',function(){
             this.gameOver=false;
             this.score=0;
             this.winningScore=10;
+            this.gameTime=0;
+            this.timeLimit=5000;
         }
         update(deltaTime){
+            if(!this.gameOver) this.gameTime+=deltaTime;
+            if(this.gameTime>this.timeLimit) this.gameOver=true;
             this.player.update();
             if(this.amnoTimer>this.amnoInterval){
                 if(this.amno<this.maxAmno) this.amno++;
@@ -207,7 +215,7 @@ window.addEventListener('load',function(){
                             projectile.markedForDeletion=true;
                             if(enemy.lives<=0){
                                 enemy.markedForDeletion=true;
-                                this.score+=enemy.score;
+                                if(!this.gameOver)  this.score+=enemy.score;
                                 if(this.score>this.winningScore) this.gameOver=true;
                             }
                         }
