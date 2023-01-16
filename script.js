@@ -147,11 +147,11 @@ window.addEventListener('load',function(){
             this.image2=document.getElementById('layer2');
             this.image3=document.getElementById('layer3');
             this.image4=document.getElementById('layer4');
-            this.Layer1=new Layer(this.game,this.image1,1);
-            this.Layer2=new Layer(this.game,this.image2,1);
+            this.Layer1=new Layer(this.game,this.image1,0.2);
+            this.Layer2=new Layer(this.game,this.image2,0.4);
             this.Layer3=new Layer(this.game,this.image3,1);
-            this.Layer4=new Layer(this.game,this.image4,1);
-            this.layers=[this.Layer1,this.Layer2,this.Layer3,this.Layer4];
+            this.Layer4=new Layer(this.game,this.image4,1.5);
+            this.layers=[this.Layer1,this.Layer2,this.Layer3];
             
         }
         update(){
@@ -238,6 +238,7 @@ window.addEventListener('load',function(){
             if(!this.gameOver) this.gameTime+=deltaTime;
             if(this.gameTime>this.timeLimit) this.gameOver=true;
             this.background.update();
+            this.background.Layer4.update();
             this.player.update();
             if(this.amnoTimer>this.amnoInterval){
                 if(this.amno<this.maxAmno) this.amno++;
@@ -281,6 +282,7 @@ window.addEventListener('load',function(){
             }
 
             );
+            this.background.Layer4.draw(context);
         }
         addEnemy(){
             this.enemies.push(new Angler1(this));
