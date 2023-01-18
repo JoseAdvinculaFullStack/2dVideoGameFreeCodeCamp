@@ -154,7 +154,22 @@ window.addEventListener('load',function(){
             this.score=this.lives;
             this.y=Math.random()*(this.game.height*0.9-this.height);
             this.image=document.getElementById("angler2");
-            this.frameY=Math.floor(Math.random()*3);
+            this.frameY=Math.floor(Math.random()*2);
+
+        }
+    }
+    
+    class Lucky extends Enemy{
+        constructor(game){
+            super(game);
+            this.width=99;
+            this.height=95;
+            this.lives=3;
+            this.score=15;
+            this.y=Math.random()*(this.game.height*0.9-this.height);
+            this.image=document.getElementById("lucky");
+            this.frameY=Math.floor(Math.random()*2);
+            this.type='lucky';
 
         }
     }
@@ -327,7 +342,8 @@ window.addEventListener('load',function(){
         }
         addEnemy(){
             const randomize=Math.random();
-            if(randomize<0.5) this.enemies.push(new Angler1(this)); else this.enemies.push(new Angler2(this));
+            if(randomize<0.3) this.enemies.push(new Angler1(this)); else if(randomize<0.6) this.enemies.push(new Angler2(this));
+            else this.enemies.push(new Lucky(this));
                 console.log(this.enemies);          
         }
         checkCollision(rect1,rect2){
