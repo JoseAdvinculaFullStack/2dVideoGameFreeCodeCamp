@@ -2,7 +2,7 @@ window.addEventListener('load',function(){
     //canvas setup
     const canvas =document.getElementById('canvas1');
     const ctx=canvas.getContext('2d') ;
-    canvas.width=700;
+    canvas.width=1000;
     canvas.height=500;
     class InputHandler{
         constructor(game){
@@ -214,7 +214,7 @@ window.addEventListener('load',function(){
             super(game);
             this.width=228;
             this.height=169;
-            this.lives=2;
+            this.lives=5;
             this.score=this.lives;
             this.y=Math.random()*(this.game.height*0.95-this.height);
             this.image=document.getElementById("angler1");
@@ -228,7 +228,7 @@ window.addEventListener('load',function(){
             super(game);
             this.width=213;
             this.height=165;
-            this.lives=3;
+            this.lives=6;
             this.score=this.lives;
             this.y=Math.random()*(this.game.height*0.95-this.height);
             this.image=document.getElementById("angler2");
@@ -242,7 +242,7 @@ window.addEventListener('load',function(){
             super(game);
             this.width=99;
             this.height=95;
-            this.lives=3;
+            this.lives=5;
             this.score=15;
             this.y=Math.random()*(this.game.height*0.95-this.height);
             this.image=document.getElementById("lucky");
@@ -257,7 +257,7 @@ window.addEventListener('load',function(){
             super(game);
             this.width=400;
             this.height=227;
-            this.lives=15;
+            this.lives=20;
             this.score=this.lives;
             this.y=Math.random()*(this.game.height*0.95-this.height);
             this.image=document.getElementById("hivewhale");
@@ -440,16 +440,16 @@ window.addEventListener('load',function(){
             this.particles=[];
             this.explosions=[];
             this.enemyTimer=0;
-            this.enemyInterval=1000;
+            this.enemyInterval=2000;
             this.amno=20;
             this.maxAmno=50;
             this.amnoTimer=0;
-            this.amnoInterval=500;
+            this.amnoInterval=350;
             this.gameOver=false;
             this.score=0;
-            this.winningScore=10;
+            this.winningScore=80;
             this.gameTime=0;
-            this.timeLimit=15000;
+            this.timeLimit=30000;
             this.speed=1;
             this.debug=false;
         }
@@ -481,7 +481,7 @@ window.addEventListener('load',function(){
                             this.particles.push(new Particle(this,enemy.x +enemy.width*0.5,enemy.y+enemy.height*0.5));
                         }
                         if(enemy.type==='lucky') {this.player.enterPowerUp()}
-                        else{ this.score--;}
+                        else{  if(!this.gameOver) this.score--;}
                     }
                     this.player.proyectiles.forEach(projectile =>{
                         if(this.checkCollision(projectile,enemy)){
@@ -537,7 +537,7 @@ window.addEventListener('load',function(){
         addEnemy(){
             const randomize=Math.random();
             if(randomize<0.3) this.enemies.push(new Angler1(this)); else if(randomize<0.6) this.enemies.push(new Angler2(this));
-            else if(randomize<0.8) this.enemies.push(new HiveWhale(this));
+            else if(randomize<0.7) this.enemies.push(new HiveWhale(this));
             else this.enemies.push(new Lucky(this));      
         }
         addExplosion(enemies){
