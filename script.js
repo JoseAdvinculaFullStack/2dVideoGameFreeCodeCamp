@@ -68,7 +68,7 @@ window.addEventListener('load',function(){
             this.angle=0;
             this.va=Math.random()*0.2-0.1;
             this.bounced=0;
-            this.bottomBounceBoundary=100;
+            this.bottomBounceBoundary=Math.random()*80 + 60;
 
         }
         update(){
@@ -89,7 +89,7 @@ window.addEventListener('load',function(){
             context.save();
             context.translate(this.x,this.y);
             context.rotate(this.angle);
-            context.drawImage(this.image,this.frameX*this.spriteSize,this.frameY*this.spriteSize,this.spriteSize,this.spriteSize,0,0,this.size,this.size)
+            context.drawImage(this.image,this.frameX*this.spriteSize,this.frameY*this.spriteSize,this.spriteSize,this.spriteSize,this.size*-0.5,this.size*-0.5,this.size,this.size)
             context.restore();
         }
 
@@ -172,7 +172,7 @@ window.addEventListener('load',function(){
         enterPowerUp(){
             this.powerUpTimer=0;
             this.powerUp=true;
-            this.game.amno=this.game.maxAmno;
+            if(this.game.amno<this.game.maxAmno)this.game.amno=this.game.maxAmno;
         }
     }
     class Enemy{
@@ -368,7 +368,7 @@ window.addEventListener('load',function(){
             this.gameTime=0;
             this.timeLimit=15000;
             this.speed=1;
-            this.debug=true;
+            this.debug=false;
         }
         update(deltaTime){
 
@@ -393,7 +393,7 @@ window.addEventListener('load',function(){
                         for(let i=0;i<10;i++){
                             this.particles.push(new Particle(this,enemy.x +enemy.width*0.5,enemy.y+enemy.height*0.5));
                         }
-                        if(enemy.type=='lucky') {this.player.enterPowerUp()}
+                        if(enemy.type==='lucky') {this.player.enterPowerUp()}
                         else{ this.score--;}
                     }
                     this.player.proyectiles.forEach(projectile =>{
@@ -426,8 +426,8 @@ window.addEventListener('load',function(){
         draw(context){
             
             this.background.draw(context);
-            this.player.draw(context);
             this.ui.draw(context);
+            this.player.draw(context);
             this.particles.forEach(particles=>particles.draw(context));
             this.enemies.forEach(enemy=>{
                 enemy.draw(context);
@@ -439,8 +439,7 @@ window.addEventListener('load',function(){
         addEnemy(){
             const randomize=Math.random();
             if(randomize<0.3) this.enemies.push(new Angler1(this)); else if(randomize<0.6) this.enemies.push(new Angler2(this));
-            else this.enemies.push(new Lucky(this));
-                console.log(this.enemies);          
+            else this.enemies.push(new Lucky(this));      
         }
         checkCollision(rect1,rect2){
             return (
