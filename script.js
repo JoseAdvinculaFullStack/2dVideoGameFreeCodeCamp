@@ -339,6 +339,11 @@ window.addEventListener('load',function(){
             this.interval=1000/this.fps;
             this.markedForDeletion=false;
             this.maxFrame=8;
+            this.spriteWidth=200;
+            this.width=this.spriteWidth;
+            this.height=this.spriteHeight;
+            this.x=x - this.width*0.5;
+            this.y=y - this.height*0.5;
         }
         update(deltaTime){
             this.x-=this.game.speed;
@@ -358,17 +363,18 @@ window.addEventListener('load',function(){
         constructor(game,x,y){
             super(game,x,y);
             this.image=document.getElementById("smokeExplosion");
-            this.spriteWidth=200;
-            this.width=this.spriteWidth;
-            this.height=this.spriteHeight;
-            this.x=x - this.width*0.5;
-            this.y=y - this.height*0.5;
 
 
         }
 
     }
     class FireExplosion extends Explosion{
+        constructor(game,x,y){
+            super(game,x,y);
+            this.image=document.getElementById("fireExplosion");
+
+
+        }
 
     }
     class UI{
@@ -536,7 +542,10 @@ window.addEventListener('load',function(){
         }
         addExplosion(enemies){
             const randomize=Math.random();
-            if(randomize<1)this.explosions.push(new SmokeExplosion(this,enemies.x + enemies.width*0.5,enemies.y + enemies.height*0.5));
+            if(randomize<0.5){this.explosions.push(new SmokeExplosion(this,enemies.x + enemies.width*0.5,enemies.y + enemies.height*0.5));
+            }else{
+           this.explosions.push(new FireExplosion(this,enemies.x + enemies.width*0.5,enemies.y + enemies.height*0.5));
+            }
 
         }
         checkCollision(rect1,rect2){
